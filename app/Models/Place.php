@@ -2,8 +2,14 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
+use App\Models\Image;
+use App\Models\Review;
+use App\Models\PlaceCategory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Place extends Model
 {
@@ -25,6 +31,25 @@ class Place extends Model
         'posted_at',
         'created_at',
         'updated_at'
-
     ];
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function reviews(): BelongsToMany
+    {
+        return $this->belongsToMany(Review::class);
+    }
+
+    public function placeCategories(): BelongsToMany
+    {
+        return $this->belongsToMany(PlaceCategory::class);
+    }
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(Image::class);
+    }
 }
