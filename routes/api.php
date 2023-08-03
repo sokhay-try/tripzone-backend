@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,7 +26,15 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/auth/register', [AuthController::class, 'createUser']);
 Route::post('/auth/login', [AuthController::class, 'loginUser']);
 
+
+
 Route::middleware('auth:sanctum')->group( function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
     Route::get('/user/profile', [AuthController::class, 'userProfile']);
+
+    /**
+     * ==================== Category =========================
+     */
+    Route::resource('categories', CategoryController::class);
+
 });

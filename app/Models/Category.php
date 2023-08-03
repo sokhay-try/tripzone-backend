@@ -6,6 +6,7 @@ use App\Models\PlaceCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Config;
 
 class Category extends Model
 {
@@ -18,6 +19,12 @@ class Category extends Model
     protected $fillable = [
         'name'
     ];
+    protected $perPage;
+
+    public function __construct()
+    {
+        $this->perPage = config('app.default_per_page');
+    }
 
     public function placeCategories(): BelongsToMany
     {

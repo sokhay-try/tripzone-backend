@@ -54,7 +54,7 @@ class AuthController extends BaseController
 
             $success['token'] = $user->createToken("API TOKEN")->plainTextToken;
             $success['user'] = new UserResource($user);
-            return $this->sendResponse($success, 'User Created Successfully', Response::HTTP_CREATED);
+            return $this->sendResponse($success, 'User created successfully', Response::HTTP_CREATED);
 
         } catch (\Throwable $th) {
             return $this->sendError($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -84,7 +84,7 @@ class AuthController extends BaseController
 
             $user = User::where('username', $request->username)->first();
             $success['token'] = $user->createToken("API TOKEN")->plainTextToken;
-            return $this->sendResponse($success, 'User Logged In Successfully');
+            return $this->sendResponse($success, 'User logged in successfully');
 
         } catch (\Throwable $th) {
             return $this->sendError($th->getMessage(), [], Response::HTTP_INTERNAL_SERVER_ERROR);
@@ -93,12 +93,12 @@ class AuthController extends BaseController
 
     public function logout(Request $request) {
         $request->user()->currentAccessToken()->delete();
-        return $this->sendResponse(null, 'User Logged Out Successfully');
+        return $this->sendResponse(null, 'User logged out successfully');
     }
 
     public function userProfile(Request $request) {
         $user = $request->user();
         $user->roleType;
-        return $this->sendResponse($user, 'User dd Out Successfully');
+        return $this->sendResponse($user, 'User retrieve successfully');
     }
 }
