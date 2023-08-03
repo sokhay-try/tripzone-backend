@@ -16,4 +16,11 @@ class Province extends Model
     protected $fillable = [
         'name'
     ];
+
+    protected $perPage;
+
+    public function __construct()
+    {
+        $this->perPage = \config('app.default_per_page');
+    }
 }

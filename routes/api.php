@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\CategoryController;
+use App\Http\Controllers\Api\V1\ProvinceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,5 +37,10 @@ Route::middleware('auth:sanctum')->group( function () {
      * ==================== Category =========================
      */
     Route::resource('categories', CategoryController::class);
+
+    /**
+     * ==================== Province =========================
+     */
+    Route::resource('provinces', ProvinceController::class);
 
 });
