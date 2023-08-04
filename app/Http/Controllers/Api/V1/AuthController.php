@@ -10,10 +10,18 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Support\Facades\Validator;
 use App\Http\Controllers\Api\BaseController;
+use App\Http\Controllers\Api\CustomPaginator;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthController extends BaseController
 {
+
+    public function userList(Request $request) {
+        $perPage = $request->query('per_page');
+        $user = new CustomPaginator(User::with('roleType')->paginate($perPage));
+        return $this->sendResponse($user, 'User retrieved successfully!');
+    }
+
     /**
      * Create User
      * @param Request $request
@@ -31,7 +39,6 @@ class AuthController extends BaseController
                 'first_name' => 'required|string',
                 'last_name' => 'required|string',
                 'email' => 'required|email|unique:users,email',
-                'profile' => 'required|image',
             ]);
 
             if($validator->fails()){
@@ -39,9 +46,12 @@ class AuthController extends BaseController
             }
 
             // upload avatar for user
-            $avatarName = time().'.'.$request->profile->getClientOriginalExtension();
-            $request->profile->move(public_path('profile-images'), $avatarName);
-
+            $avatarName = null;
+            if ($request->profile) {
+                $avatarName = time().'.'.$request->profile->getClientOriginalExtension();
+                $request->profile->move(public_path('images'), $avatarName);
+                $avatarName = $this.getAvatarUrl($avatarName);
+            }
             $user = User::create([
                 'username' => $request->username,
                 'password' => Hash::make($request->password),
@@ -101,4 +111,10 @@ class AuthController extends BaseController
         $user->roleType;
         return $this->sendResponse($user, 'User retrieve successfully');
     }
+
+    public function getAvatarUrl($fileName)
+    {
+        return env('APP_URL'). '/images/' . $fileName;
+    }
+
 }

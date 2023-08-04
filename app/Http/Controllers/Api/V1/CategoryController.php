@@ -19,6 +19,11 @@ class CategoryController extends BaseController
         return $this->sendResponse($category, 'Cateory retrieved successfully!');
     }
 
+    public function show(Category $category)
+    {
+        return $this->sendResponse(new CategoryResource($category), 'Category detail retrieved successfully.');
+    }
+
     public function store(Request $request)
     {
         $input = $request->all();

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('visitor')->default(0);
             $table->integer('distance')->default(0);
             $table->enum('status', ['active', 'inactive', 'pending'])->default('pending');
-            $table->longText('address');
+            $table->longText('address');            ;
             $table->unsignedBigInteger('province_id');
             $table->unsignedBigInteger('created_by');
             $table->timestamp('posted_at')->nullable();

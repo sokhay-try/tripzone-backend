@@ -52,4 +52,9 @@ class Place extends Model
     {
         return $this->hasMany(Image::class);
     }
+
+    public function province(): BelongsTo
+    {
+        return $this->belongsTo(Province::class);
+    }
 }

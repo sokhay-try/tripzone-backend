@@ -19,6 +19,11 @@ class ProvinceController extends BaseController
         return $this->sendResponse($province, 'Province retrieved successfully!');
     }
 
+    public function show(Province $province)
+    {
+        return $this->sendResponse(new ProvinceResource($province), 'Province detail retrieved successfully.');
+    }
+
     public function store(Request $request)
     {
         $input = $request->all();

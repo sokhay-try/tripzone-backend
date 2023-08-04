@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\PlaceController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\ProvinceController;
 
@@ -31,7 +32,16 @@ Route::post('/auth/login', [AuthController::class, 'loginUser']);
 
 Route::middleware('auth:sanctum')->group( function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
-    Route::get('/user/profile', [AuthController::class, 'userProfile']);
+
+    /**
+     * ==================== User =========================
+     */
+    Route::group(['prefix' => 'users'], function () {
+        Route::get('/profile', [AuthController::class, 'userProfile']);
+        Route::get('/', [AuthController::class, 'userList']);
+    });
+
+
 
     /**
      * ==================== Category =========================
@@ -42,5 +52,14 @@ Route::middleware('auth:sanctum')->group( function () {
      * ==================== Province =========================
      */
     Route::resource('provinces', ProvinceController::class);
+
+    /**
+     * ==================== Place =========================
+     */
+    Route::resource('places', PlaceController::class);
+    Route::group(['prefix' => 'places'], function () {
+        Route::post('/status/update', [PlaceController::class, 'updateStatus']);
+        Route::post('/visitor/update', [PlaceController::class, 'updateVisitor']);
+    });
 
 });
