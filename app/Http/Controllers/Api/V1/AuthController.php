@@ -16,12 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 class AuthController extends BaseController
 {
 
-    public function userList(Request $request) {
-        $perPage = $request->query('per_page');
-        $user = new CustomPaginator(User::with('roleType')->paginate($perPage));
-        return $this->sendResponse($user, 'User retrieved successfully!');
-    }
-
     /**
      * Create User
      * @param Request $request

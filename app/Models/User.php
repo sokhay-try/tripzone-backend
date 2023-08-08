@@ -30,7 +30,8 @@ class User extends Authenticatable
         'last_name',
         'profile',
         'password',
-        'role_id'
+        'role_id',
+        'status'
     ];
 
     /**
@@ -52,6 +53,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    protected $perPage;
+
+    public function __construct()
+    {
+        $this->perPage = config('app.default_per_page');
+    }
 
     public function roleType(): BelongsTo
     {

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\V1\AuthController;
+use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\PlaceController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\ProvinceController;
@@ -18,9 +19,9 @@ use App\Http\Controllers\Api\V1\ProvinceController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
 
 /**
  * ======================== AuthController ==========================
@@ -32,15 +33,14 @@ Route::post('/auth/login', [AuthController::class, 'loginUser']);
 
 Route::middleware('auth:sanctum')->group( function () {
     Route::post('/auth/logout', [AuthController::class, 'logout']);
+    Route::get('/user/profile', [AuthController::class, 'userProfile']);
 
     /**
      * ==================== User =========================
      */
-    Route::group(['prefix' => 'users'], function () {
-        Route::get('/profile', [AuthController::class, 'userProfile']);
-        Route::get('/', [AuthController::class, 'userList']);
-    });
-
+    Route::resource('users', UserController::class);
+    Route::post('/users/status/active', [UserController::class, 'updateUserStatusToActive']);
+    Route::post('/users/status/inactive', [UserController::class, 'updateUserStatusToInactive']);
 
 
     /**
