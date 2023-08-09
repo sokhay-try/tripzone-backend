@@ -20,8 +20,16 @@ class Image extends Model
         'place_id',
     ];
 
+    protected $perPage;
+
+    public function __construct()
+    {
+        $this->perPage = config('app.default_per_page');
+    }
+
     public function place(): BelongsTo
     {
         return $this->belongsTo(Place::class);
     }
+
 }

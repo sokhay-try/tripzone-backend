@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\V1;
 
 use App\Models\User;
+use Ramsey\Uuid\Uuid;
 use App\Models\RoleType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -42,9 +43,9 @@ class AuthController extends BaseController
             // upload avatar for user
             $avatarName = null;
             if ($request->profile) {
-                $avatarName = time().'.'.$request->profile->getClientOriginalExtension();
+                $avatarName = $this->getFileName($request->profile);
                 $request->profile->move(public_path('images'), $avatarName);
-                $avatarName = $this.getAvatarUrl($avatarName);
+                $avatarName = $this->getAvatarUrl($avatarName);
             }
             $user = User::create([
                 'username' => $request->username,
@@ -109,6 +110,16 @@ class AuthController extends BaseController
     public function getAvatarUrl($fileName)
     {
         return env('APP_URL'). '/images/' . $fileName;
+    }
+
+    public function getFileName($image)
+    {
+        $uuid = Uuid::uuid4();
+        $fileName = pathinfo($image->getClientOriginalName(), PATHINFO_FILENAME);
+        $extendtion = '.'.$image->getClientOriginalExtension();
+        $filename = $uuid->toString()."-".$fileName."-".time().$extendtion;
+
+        return $filename;
     }
 
 }

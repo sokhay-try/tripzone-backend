@@ -76,6 +76,12 @@ class PlaceController extends BaseController
         return $this->sendResponse(new PlaceResource($place), 'Place updated successfully.');
     }
 
+    public function destroy(Place $place)
+    {
+        $place->delete();
+        return $this->sendResponse([], 'Place deleted successfully.');
+    }
+
     public function updateStatus(Request $request)
     {
         $validator = Validator::make($request->all(), [
