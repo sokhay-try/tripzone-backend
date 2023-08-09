@@ -14,8 +14,16 @@ class PlaceController extends BaseController
 {
 
     public function index(Request $request) {
+
+        $searchPlace = $request->query('search');
         $perPage = $request->query('per_page');
         $place = new CustomPaginator(Place::with('province')->paginate($perPage));
+
+        if ($searchPlace) {
+            $place = Place::where('name', 'LIKE', "%{$searchPlace}%")
+                    ->orWhere('description', 'LIKE', "%{$searchPlace}%")
+                    ->get();
+        }
         return $this->sendResponse($place, 'Place retrieved successfully!');
     }
 

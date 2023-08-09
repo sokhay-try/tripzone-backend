@@ -21,6 +21,7 @@ class ProvinceController extends BaseController
 
     public function show(Province $province)
     {
+        $province->places;
         return $this->sendResponse(new ProvinceResource($province), 'Province detail retrieved successfully.');
     }
 
