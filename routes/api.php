@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\V1\AuthController;
 use App\Http\Controllers\Api\V1\UserController;
 use App\Http\Controllers\Api\V1\ImageController;
 use App\Http\Controllers\Api\V1\PlaceController;
+use App\Http\Controllers\Api\V1\ReviewController;
 use App\Http\Controllers\Api\V1\CategoryController;
 use App\Http\Controllers\Api\V1\ProvinceController;
 
@@ -68,5 +69,10 @@ Route::middleware('auth:sanctum')->group( function () {
      */
     Route::resource('upload/images', ImageController::class);
     Route::post('upload/images/{id}', [ImageController::class, 'updateImage']);
+
+    /**
+     * ==================== Review Place =========================
+     */
+    Route::resource('reviews', ReviewController::class);
 
 });

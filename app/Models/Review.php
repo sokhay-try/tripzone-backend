@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Place;
+use App\Models\Province;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Review extends Model
 {
@@ -19,4 +21,15 @@ class Review extends Model
         'rating',
         'review_text'
     ];
+
+    public function province()
+    {
+        return $this->belongsTo(Province::class);
+    }
+
+    public function place()
+    {
+        return $this->belongsTo(Place::class);
+    }
+
 }

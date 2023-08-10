@@ -33,14 +33,16 @@ class Place extends Model
         'updated_at'
     ];
 
+    protected $appends = ['avg_rating'];
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function reviews(): BelongsToMany
+    public function reviews()
     {
-        return $this->belongsToMany(Review::class);
+        return $this->hasMany(Review::class, 'place_id');
     }
 
     public function placeCategories(): BelongsToMany
@@ -57,6 +59,12 @@ class Place extends Model
     {
         return $this->belongsTo(Province::class);
     }
+
+    public function getAvgRatingAttribute()
+    {
+        return round($this->reviews()->avg('rating'), 1);
+    }
+
 
     // this is the recommended way for declaring event handlers
     public static function boot() {
